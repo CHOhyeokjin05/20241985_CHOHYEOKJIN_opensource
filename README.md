@@ -33,3 +33,9 @@
 6. [OpenCV 이미지 테두리 만들기, VirusHeo](https://virusheo.blogspot.com/2022/05/220528.html)
 7. [점프 투 FastAPI, 박응용](https://wikidocs.net/book/8531)
 
+---
+
+## 참고
+src에 있는 text_extract_english 는 pytesseract라는 라이브러리 테스트입니다.
+
+추후 deprecated 디렉터리에 넣을 예정입니다.
