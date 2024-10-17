@@ -38,4 +38,4 @@
 ## 참고
 src에 있는 text_extract_english 는 pytesseract라는 라이브러리 테스트입니다.
 
-추후 deprecated 디렉터리에 넣을 예정입니다.
+추후 deprecated 폴더를 만들어 그곳에 넣을 예정입니다.
