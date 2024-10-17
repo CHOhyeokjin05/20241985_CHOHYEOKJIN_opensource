@@ -14,13 +14,13 @@
 
 ## 구현 방법
 
-> __글자 추출__: Google Visioin or PaddleOCR 이용
+> ___글자 추출___: Google Visioin or PaddleOCR 이용
 
-> __번역__: 추출된 텍스트 + image captioning(TensorFlow)상황 설명 텍스트 -> ChatGPT API
+> ___번역___: 추출된 텍스트 + image captioning(TensorFlow)상황 설명 텍스트 -> ChatGPT API
 
-> __이미지 수정__: OpenCV or pillow 이용
+> ___이미지 수정___: OpenCV or pillow 이용
 
-> __API__: FastAPI 이용
+> ___API___: FastAPI 이용
 
 <hr/>
 
