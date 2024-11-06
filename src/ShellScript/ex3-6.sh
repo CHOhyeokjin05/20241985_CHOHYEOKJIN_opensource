@@ -8,17 +8,13 @@ if [ ! -d "${folder_name}" ]; then
 fi
 
 # 5개의 파일 생성
-for i in 1 2 3 4 5; do
+for i in 0 1 2 3 4; do
   touch "${folder_name}/file$i.txt"
 done
 
-# 현재 폴더에서 압축 파일 생성
-tar -cvf "${folder_name}.tar" "$folder_name"
+# files 폴더에서 압축 파일 생성
+tar --exclude="${folder_name}/${folder_name}.tar" -cvf "${folder_name}/${folder_name}.tar" "${folder_name}"
 
-# files 폴더 생성 (압축 해제용 폴더)
-if [ ! -d "$folder_name" ]; then
-  mkdir "$folder_name"
-fi
 
 # files 폴더에 압축 해제
-tar -xvf "${folder_name}.tar" -C "files"
+tar -xvf "${folder_name}/${folder_name}.tar" -C "$folder_name"
