@@ -11,5 +11,5 @@ fi
 for i in 0 1 2 3 4; do
   touch "$folder_name/file$i.txt"
   mkdir -p "$folder_name/file$i"
-  ln -s "$PWD/$folder_name/file$i.txt" "$folder_name/file$i/file$i.txt"
+  ln -s "$folder_name/file$i.txt" "$folder_name/file$i/file$i.txt"
 done
