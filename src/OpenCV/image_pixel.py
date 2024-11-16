@@ -2,13 +2,6 @@ import cv2
 import os
 import numpy as np
 
-image_path = os.path.join(os.path.dirname(__file__), "../PaddleOCR/ppocr_img/imgs_en/img_12.jpg")
-img = cv2.imread(image_path, 0)
-
-height, width = img.shape
-
-print(height, width)
-
 data = [[[[441.0, 174.0], [1166.0, 176.0], [1165.0, 222.0], [441.0, 221.0]], ('ACKNOWLEDGEMENTS', 0.9974855780601501)], 
         [[[403.0, 346.0], [1204.0, 348.0], [1204.0, 384.0], [402.0, 383.0]], ('We would like to thank all the designers and', 0.9683309197425842)], 
         [[[403.0, 396.0], [1204.0, 398.0], [1204.0, 434.0], [402.0, 433.0]], ('contributors who have been involved in the', 0.9776103496551514)], 
@@ -22,11 +15,40 @@ data = [[[[441.0, 174.0], [1166.0, 176.0], [1165.0, 222.0], [441.0, 221.0]], ('A
         [[[397.0, 802.0], [1090.0, 800.0], [1090.0, 839.0], [397.0, 841.0]], ('thank you for your continuous support.', 0.9981997609138489)]]
 
 
+# Load the image
+image_path = os.path.join(os.path.dirname(__file__), "../PaddleOCR/ppocr_img/imgs_en/img_12.jpg")
+img = cv2.imread(image_path)
 
+# Check if the image was loaded correctly
+if img is None:
+    print("Error: Could not load the image.")
+    exit()
 
-for idx in range(len(data)):
-    for line in data[idx]:
-        img[line[0]] = 0
-cv2.imshow('sample', img)
-cv2.waitKey()
+# Define color (green) and font
+text_color = (0, 255, 0)  # Green in BGR format
+font = cv2.FONT_HERSHEY_SIMPLEX
+font_thickness = 2
+
+# Loop through each data item and draw the polygons and text
+for item in data:
+    box_points = np.array(item[0], np.int32)  # Bounding box points
+    text = item[1][0]  # Extract the text from the tuple
+
+    # Draw the polygon for the bounding box
+    cv2.polylines(img, [box_points], isClosed=True, color=text_color, thickness=2)
+
+    # Calculate the height of the bounding box to adjust the font size
+    box_height = abs(box_points[0][1] - box_points[3][1])
+    font_scale = box_height / 25  # Adjust scale factor as needed for better fit
+
+    # Set text starting position at the left edge of the box
+    x, y = box_points[0][0], box_points[0][1] + box_height - 5  # Offset y to align with the box bottom
+
+    # Put the text starting from the left edge of the bounding box with dynamic font size
+    cv2.putText(img, text, (x, y), font, font_scale, text_color, font_thickness)
+
+# Display the resulting image
+cv2.imshow('Overlayed Text', img)
+cv2.waitKey(0)
 cv2.destroyAllWindows()
+
