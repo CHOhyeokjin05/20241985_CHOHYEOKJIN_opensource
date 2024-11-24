@@ -1,0 +1,22 @@
+name: poricom-py39
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.9
+  - pip
+  - poppler
+  - tesserocr
+  - pip:
+    - argostranslate
+    - cutlet
+    - huggingface-hub==0.7.0
+    - manga-ocr
+    - pdf2image
+    - pillow
+    - pyqt5
+    - pyqtkeybind
+    - rarfile
+    - stringcase
