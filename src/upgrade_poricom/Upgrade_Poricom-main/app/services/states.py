@@ -224,7 +224,7 @@ class State:
 
     def predictTranslate(self, text):
         settings = QSettings(SETTINGS_FILE_DEFAULT, QSettings.IniFormat)
-        if settings.value('enableImage'):
+        if settings.value('enableCaptioning'):
             explain = "Situation: " + self.explain_image.predict([settings.value('Explain_image_path')])[0] + "\n"
         else:
             explain = "\n"

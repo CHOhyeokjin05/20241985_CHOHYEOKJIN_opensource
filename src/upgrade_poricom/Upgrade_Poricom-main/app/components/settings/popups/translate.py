@@ -32,7 +32,7 @@ class TranslateOptions(BaseOptions):
             [
                 ("enableTranslate", "false", bool),
                 ("translateModel", "ChatGPT", str),
-                ("enableImage", "false", bool)
+                ("enableCaptioning", "false", bool)
             ]
         )
 
@@ -64,9 +64,9 @@ class TranslateOptions(BaseOptions):
         self.enableTranslateIndex = i
         self.enableTranslate = True if i else False
 
-    def changeEnableImage(self, i):
-        self.enableImageIndex = i
-        self.enableImage = True if i else False
+    def changeEnableCaptioning(self, i):
+        self.enableCaptioningIndex = i
+        self.enableCaptioning = True if i else False
 
     def changeTranslateModel(self, i):
         self.translateModelIndex = i
@@ -85,6 +85,6 @@ class TranslateOptions(BaseOptions):
             "enableTranslate", "true" if self.enableTranslate else "enableTranslate"
         )
         self.mainWindow.setProperty(
-            "enableImage", "true" if self.enableImage else "enableImage"
+            "enableCaptioning", "true" if self.enableCaptioning else "enableCaptioning"
         )
         return super().saveSettings(hasMessage)
