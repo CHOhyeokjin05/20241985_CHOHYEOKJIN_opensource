@@ -14,7 +14,6 @@ data = [[[[441.0, 174.0], [1166.0, 176.0], [1165.0, 222.0], [441.0, 221.0]], ('A
         [[[399.0, 750.0], [1211.0, 750.0], [1211.0, 789.0], [399.0, 789.0]], ('but have made specific input in this book, we', 0.997929036617279)], 
         [[[397.0, 802.0], [1090.0, 800.0], [1090.0, 839.0], [397.0, 841.0]], ('thank you for your continuous support.', 0.9981997609138489)]]
 
-
 # Load the image
 image_path = os.path.join(os.path.dirname(__file__), "../PaddleOCR/ppocr_img/imgs_en/img_12.jpg")
 img = cv2.imread(image_path)
@@ -41,6 +40,14 @@ for item in data:
     box_height = abs(box_points[0][1] - box_points[3][1])
     font_scale = box_height / 25  # Adjust scale factor as needed for better fit
 
+    # Get text size to detect overflow
+    (text_width, text_height), baseline = cv2.getTextSize(text, font, font_scale, font_thickness)
+    
+    # Check if the text exceeds the width of the box
+    box_width = abs(box_points[1][0] - box_points[0][0])
+    if text_width > box_width:
+        print(f"Text '{text}' is too wide for the box.")
+
     # Set text starting position at the left edge of the box
     x, y = box_points[0][0], box_points[0][1] + box_height - 5  # Offset y to align with the box bottom
 
@@ -51,4 +58,3 @@ for item in data:
 cv2.imshow('Overlayed Text', img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-
