@@ -51,7 +51,7 @@ def process_image_with_text_overlay(image_path, data, translated_texts):
         text_height = text_bbox[3] - text_bbox[1]
         box_width = x_max - x_min
         
-        # out of bound case 디버깅
+        # # out of bound case 디버깅
         # text_width += 10000
         
         if text_width > box_width:  # 텍스트가 박스를 초과하는 경우
