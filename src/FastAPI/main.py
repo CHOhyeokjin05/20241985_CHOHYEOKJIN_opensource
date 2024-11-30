@@ -6,9 +6,12 @@ import tempfile
 import os
 from PIL import Image
 from total import translate_image
+from image_caption import ImageCaptioning
 
 # FastAPI directory
 # uvicorn main:app --reload
+
+captioning = ImageCaptioning(max_length=20, num_beams=5)
 
 api_key = ""
 
@@ -35,8 +38,19 @@ async def process_image_endpoint(file: UploadFile = File(...)):
         input_image.save(tmp_file, format="PNG")
         tmp_file_path = tmp_file.name  # 임시 파일 경로
         
-        # 처리 함수 호출 (임시 파일 경로를 전달)
-        output_image_path = translate_image(tmp_file_path, api_key)  # 이 값은 경로일 가능성 있음
+        # 이미지를 BytesIO 객체로 저장하여 전달
+        img_bytes = BytesIO()
+        input_image.save(img_bytes, format="PNG")
+        img_bytes.seek(0)
+        
+        # 예측 함수 호출 (이미지를 파일 경로로 전달)
+        print(captioning.predict([tmp_file_path]))  # 이제 경로 리스트를 전달
+        
+        # 이미지 캡션을 얻기
+        caption = captioning.predict([tmp_file_path])[0]
+        
+        # 처리 함수 호출 (이미지 경로와 캡션 전달)
+        output_image_path = translate_image(tmp_file_path, caption, api_key)
         
         # output_image_path가 경로라면 그 경로를 사용해 이미지를 연다.
         output_image = Image.open(output_image_path)  # 경로로 이미지를 다시 열기

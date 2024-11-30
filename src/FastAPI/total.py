@@ -32,16 +32,16 @@ class ImageTranslator:
         result = self.ocr.ocr(img_path, cls=True)
         return result[0] if result else []
         
-    def translate_to_korean(self, text: str) -> str:
+    def translate_to_korean(self, text: str, caption: str) -> str:
         """
         텍스트를 한국어로 번역
         """
         try:
             response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
+                model="gpt-4",
                 messages=[ 
-                    {"role": "system", "content": "You are a helpful translator. Translate the following text to Korean."},
-                    {"role": "user", "content": text}
+                    {"role": "system", "content": f"You are a helpful translator.\nImage Description: {caption}\nTranslate the following text to Korean.\n"},
+                    {"role": "user", "content": f'{text}'}
                 ],
                 temperature=0.3
             )
@@ -64,7 +64,7 @@ class ImageTranslator:
         
         return output_path
 
-def translate_image(img_path: str, api_key: Optional[str] = None) -> str:
+def translate_image(img_path: str, caption: str, api_key: Optional[str] = None) -> str:
     """
     주어진 이미지 경로에 대해 텍스트를 추출하고 번역한 후, 번역된 텍스트로 이미지를 저장
     """
@@ -80,7 +80,7 @@ def translate_image(img_path: str, api_key: Optional[str] = None) -> str:
     # 각 텍스트 라인에 대해 번역 수행
     for line in ocr_result:
         original_text = line[1][0]  # OCR로 인식된 텍스트
-        translated = translator.translate_to_korean(original_text)
+        translated = translator.translate_to_korean(original_text, caption)
         translated_texts.append(translated)
         
         print(f"\n원문: {original_text}")
@@ -98,5 +98,6 @@ if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
     img_path = os.path.join(script_dir, "ppocr_img/imgs_en/img_12.jpg")  # 실제 이미지 경로 입력
     api_key = ""  # OpenAI API 키 설정
+    caption = 'manga'
     
-    translated_image_path = translate_image(img_path, api_key)
+    translated_image_path = translate_image(img_path, caption, api_key)
