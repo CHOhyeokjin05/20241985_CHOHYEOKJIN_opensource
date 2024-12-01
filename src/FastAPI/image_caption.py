@@ -1,4 +1,4 @@
-from transformers import VisionEncoderDecoderModel, AutoFeatureExtractor, AutoTokenizer
+from transformers import VisionEncoderDecoderModel, ViTImageProcessor, AutoTokenizer
 import torch
 from PIL import Image
 
@@ -7,7 +7,7 @@ class ImageCaptioning:
     def __init__(self, model_name="nlpconnect/vit-gpt2-image-captioning", device=None, max_length=16, num_beams=4):
         # Load the model, processor, and tokenizer
         self.model = VisionEncoderDecoderModel.from_pretrained(model_name)
-        self.feature_extractor = AutoFeatureExtractor.from_pretrained(model_name)
+        self.feature_extractor = ViTImageProcessor.from_pretrained(model_name)
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         
         # Set device (default: CUDA if available, otherwise CPU)
