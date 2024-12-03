@@ -244,7 +244,7 @@ class State:
                 "model": "gpt-4",  # 또는 "gpt-3.5-turbo"
                 "messages": [
                     {"role": "system", "content": "You are a helpful translator."},
-                    {"role": "user", "content": f"{explain}Translate this manga text to Korean:\n{text}\n"},
+                    {"role": "user", "content": f"{explain}Translate this manga text to Korean as briefly and concisely as possible:\n{text}\n"},
                 ],
                 "temperature": 0.3,  # 제어 가능한 번역 일관성
                 "max_tokens": 128,

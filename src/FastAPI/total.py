@@ -40,7 +40,7 @@ class ImageTranslator:
             response = openai.ChatCompletion.create(
                 model="gpt-4",
                 messages=[ 
-                    {"role": "system", "content": f"You are a helpful translator.\nImage Description: {caption}\nTranslate the following text to Korean.\n"},
+                    {"role": "system", "content": f"You are a helpful translator.\nImage Description: {caption}\nTranslate the following text to Korean as briefly and concisely as possible.\n"},
                     {"role": "user", "content": f'{text}'}
                 ],
                 temperature=0.3
