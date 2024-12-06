@@ -39,6 +39,9 @@ def process_image_with_text_overlay(image_path, data, translated_texts):
         y_min = int(min(p[1] for p in box_points))
         x_max = int(max(p[0] for p in box_points))
         y_max = int(max(p[1] for p in box_points))
+        
+        # 폰트 크기 재설정
+        font = ImageFont.truetype(font_path, size=y_max-y_min)
 
         # 박스 영역 블러 처리
         box_area = img.crop((x_min, y_min, x_max, y_max))
@@ -66,16 +69,15 @@ def process_image_with_text_overlay(image_path, data, translated_texts):
             extra_texts.append(f"{counter}. {original_text} → {translated_text}")
             counter += 1
         else:  # 텍스트가 박스 안에 들어가는 경우
-            # 폰트 크기를 키워서 텍스트를 추가
-            larger_font = ImageFont.truetype(font_path, size=30)  # 폰트 크기 키우기
-            text_bbox = draw.textbbox((0, 0), translated_text, font=larger_font)
+            # 텍스트를 추가
+            text_bbox = draw.textbbox((0, 0), translated_text, font=font)
             text_width = text_bbox[2] - text_bbox[0]
             text_height = text_bbox[3] - text_bbox[1]
             
             # 블러 처리된 박스 위에 텍스트 추가 (검은색으로)
             text_x = x_min + (box_width - text_width) / 2  # 텍스트 중앙 정렬
             text_y = y_min + (y_max - y_min - text_height) / 2  # 텍스트 수직 중앙 정렬
-            draw.text((text_x, text_y), translated_text, font=larger_font, fill="black")  # 텍스트 색은 검은색
+            draw.text((text_x, text_y), translated_text, font=font, fill="black")  # 텍스트 색은 검은색
 
     # 이미지 아래에 흰색 영역 추가
     if extra_texts:
